@@ -1,0 +1,37 @@
+---
+- name: Installation et configuration Apache HTTPD
+  hosts: all
+  become: yes
+
+  handlers:
+    - name: restart httpd
+      service:
+        name: httpd
+        state: restarted
+
+    - name: reload httpd
+      service:
+        name: httpd
+        state: reloaded
+
+  tasks:
+
+    - name: Installer Apache HTTPD
+      yum:
+        name: httpd
+        state: present
+
+    - name: Démarrer et activer le service httpd
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Copier la configuration Apache
+      copy:
+        src: files/httpd.conf
+        dest: /etc/httpd/conf/httpd.conf
+        owner: root
+        group: root
+        mode: '0644'
+      notify: restart httpd

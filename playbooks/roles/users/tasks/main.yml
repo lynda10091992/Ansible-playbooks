@@ -1,0 +1,16 @@
+---
+# tasks file for roles/users
+
+- name: Create group
+  group:
+    name: adm1role
+    state: present
+
+- name: creating users
+  user:
+    name: adm1role
+    password: "{{ 'devops' | password_hash('sha512') }}"
+    home: /home/adm1role
+    groups: adm1role
+    shell: /bin/bash
+    state: present

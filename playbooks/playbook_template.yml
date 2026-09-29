@@ -1,0 +1,10 @@
+---
+- name: Template
+  hosts: all
+  vars:
+    variable: "adm1"
+  tasks:
+    - name: Template
+      template:
+        src: template_file.txt.j2
+        dest: /tmp/adm1.txt

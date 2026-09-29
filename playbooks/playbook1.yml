@@ -1,0 +1,39 @@
+---
+- hosts: all
+  become: true
+  vars:
+    site: adm1
+    user: adm1
+  tasks:
+    - name: Installer wget et vim
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - wget
+        - vim
+
+    - name: Creation repertoire
+      file:
+        state: directory
+        path: "/tmp/adm1/{{ site }}"
+        mode: 0755
+        owner: adm1
+        group: adm1
+
+    - name: Creation user
+      user:
+        name: "{{ user }}"
+
+    - name: Verifier existence du fichier sshd_config
+      stat:
+        path: /etc/ssh/sshd_config
+      register: sshd_config_file
+
+    - name: Sauvegarde du fichier sshd_config avec la date du jour
+      copy:
+        src: /etc/ssh/sshd_config
+        dest: "/etc/ssh/sshd_config.{{ ansible_date_time.date }}"
+        remote_src: true
+        mode: preserve
+      when: sshd_config_file.stat.exists

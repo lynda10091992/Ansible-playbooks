@@ -1,0 +1,6 @@
+---
+- name: Installation des roles users et Nginx
+  hosts: all
+  become: yes
+  roles:
+    - users

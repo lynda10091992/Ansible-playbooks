@@ -1,0 +1,8 @@
+[ansible2]
+192.168.1.19
+192.168.1.30
+192.168.1.40
+ 
+[ansible2:vars]
+ansible_user=adm1
+ansible_ssh_private_key_file=/home/adm1/ansible/.ssh/id_ed25519
